@@ -17,16 +17,20 @@ L.imageOverlay(imageUrl, imageBounds,{zindex: 2}).addTo(map);
 var marker = L.marker([51.574349, -1.310892]).addTo(map);
 marker.bindPopup("<b>Hello world</b><br>I am a popup.")
 fetch("beamlines_data.json").then((result) => result.json()).then((groups) => {
+    var overlays = {};
     for (var group of groups) {
-        console.log(group.name);
+        let lg = L.layerGroup()
         for (var beamline of group.beamlines) {
             console.log(beamline.name)
             console.log(beamline.position)
             var position = beamline.position
             var link = `<a href=${beamline.url}>${beamline.url}</a>`
-            var marker = L.marker(position).addTo(map);
+            var marker = L.marker(position).addTo(lg);
             marker.bindPopup(`<b>${beamline.name}</b><br>${group.name}<br>${beamline.description}<br>${link}`)
-        
+
         }
+        overlays[group.name] = lg
+        lg.addTo(map)
     }
+    L.control.layers(null,overlays).addTo(map)
 })
