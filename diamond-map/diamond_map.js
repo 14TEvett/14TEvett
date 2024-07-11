@@ -25,7 +25,10 @@ var greenIcon = new L.Icon({
 var marker = L.marker([51.574349, -1.310892], {icon: greenIcon}).addTo(map);
 
 // var marker = L.marker([51.574349, -1.310892]).addTo(map);
-marker.bindPopup("<b>Hello world</b><br>I am a popup.")
+// marker.bindPopup("<b>Hello world</b><br>I am a popup.")
+// map.on('click', function(ev) {
+//     alert(ev.latlng); // ev is an event object (MouseEvent in this case)
+// });
 fetch("beamlines_data.json").then((result) => result.json()).then((groups) => {
     var overlays = {};
     for (var group of groups) {
