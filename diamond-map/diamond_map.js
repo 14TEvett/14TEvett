@@ -65,7 +65,7 @@ fetch("beamlines_data.json").then((result) => result.json()).then((groups) => {
             var marker = L.marker(position, {icon: icon}).addTo(lg);
             markersArray.push(marker)
             marker.bindPopup(`<b>${beamline.name}</b><br>${group.name}<br>${beamline.description}<br>${link}`)
-
+            
         }
 
         overlays[group.name] = lg
@@ -80,7 +80,6 @@ controlButton.onAdd = function () {
     div.innerHTML = '<button>Find nearest beamline</button>';
     div.firstChild.addEventListener("click", function(ev) {
         L.DomEvent.stopPropagation(ev);
-        console.log("Hello world");
         var checkingDistance = Number.MAX_SAFE_INTEGER
         console.log(distancesArray)
         for (var marker of markersArray) {
@@ -91,9 +90,16 @@ controlButton.onAdd = function () {
                 var closestMarker = marker
             } 
         }
-        console.log(checkingDistance)
-        closestMarker.openPopup();
+        var pop = closestMarker.getPopup();
+        var popupContent = pop.getContent();
+        console.log(popupContent)
         closestMarker.setPopupContent('<b>Nearest beamline</b>')
+        closestMarker.openPopup();
+        closestMarker.on('popupclose', function(ev) {
+            closestMarker.setPopupContent(popupContent)
+        })
+        
+
 
     }); 
     return div
