@@ -92,8 +92,13 @@ controlButton.onAdd = function () {
             } 
         }
         console.log(checkingDistance)
-        closestMarker.openPopup();
+        var originalPopup = closestMarker.getPopup().getContent();
         closestMarker.setPopupContent('<b>Nearest beamline</b>')
+        closestMarker.openPopup();
+        setTimeout(() => {
+            closestMarker.closePopup();
+            closestMarker.setPopupContent(originalPopup);
+        }, 5000);
 
     }); 
     return div
